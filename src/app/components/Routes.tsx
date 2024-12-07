@@ -200,7 +200,7 @@ export function Routes() {
                 <SheetTrigger asChild>
                   <Button variant="outline">Add Steps</Button>
                 </SheetTrigger>
-                <SheetContent size="lg">
+                <SheetContent>
                   <SheetHeader>
                     <SheetTitle>Add Steps</SheetTitle>
                   </SheetHeader>

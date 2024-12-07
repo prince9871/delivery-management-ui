@@ -29,7 +29,7 @@ export function Drivers() {
     phone: '',
     vehicleType: '',
   })
-  const [paymentDetails, setPaymentDetails] = useState<{ completedOrders: number, driverId: string, totalDistance: number, totalOnlineTime: number, totalPayment: number } | null>(null)
+  const [paymentDetails, setPaymentDetails] = useState<{ onlineTime: number } | null>(null)
   const [isAddingDriver, setIsAddingDriver] = useState(true)
 
   useEffect(() => {
@@ -151,7 +151,6 @@ export function Drivers() {
         throw new Error('Failed to calculate payment')
       }
       const data = await response.json()
-      console.log(data)
       setPaymentDetails(data)
     } catch (err) {
       toast({
@@ -304,46 +303,36 @@ export function Drivers() {
                     <TableCell>{driver.status}</TableCell>
                     <TableCell>{driver.onlineTime} hours</TableCell>
                     <TableCell>
-                      <div className="space-y-4">
-                        <div className="flex space-x-4">
-                          <Button 
-                            onClick={() => updateDriverStatus(driver._id, driver.status === 'active' ? 'inactive' : 'active')}
-                            variant={driver.status === 'active' ? 'destructive' : 'default'}
-                            className="px-4 py-2 rounded-md"
-                          >
-                            {driver.status === 'active' ? 'Deactivate' : 'Activate'}
-                          </Button>
-                          <Button variant="destructive" onClick={() => deleteDriver(driver._id)} className="px-4 py-2 rounded-md">
-                            Delete
-                          </Button>
-                        </div>
+                      <div className="space-y-2">
+                        <Button 
+                          onClick={() => updateDriverStatus(driver._id, driver.status === 'active' ? 'inactive' : 'active')}
+                          variant={driver.status === 'active' ? 'destructive' : 'default'}
+                        >
+                          {driver.status === 'active' ? 'Deactivate' : 'Activate'}
+                        </Button>
+                        <Button variant="destructive" onClick={() => deleteDriver(driver._id)}>Delete</Button>
                         <Dialog>
                           <DialogTrigger asChild>
-                            <Button variant="outline" onClick={() => calculatePayment(driver.driverId)} className="px-4 py-2 rounded-md">
+                            <Button variant="outline" onClick={() => calculatePayment(driver.driverId)}>
                               Calculate Payment
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="p-4">
+                          <DialogContent>
                             <DialogHeader>
                               <DialogTitle>Payment Details</DialogTitle>
                             </DialogHeader>
                             <div className="mt-4">
                               {paymentDetails && (
-                                <>
-                                  <p>Completed Orders: {paymentDetails.completedOrders}</p>
-                                  <p>Total Distance: {paymentDetails.totalDistance} km</p>
-                                  <p>Online Time: {paymentDetails.totalOnlineTime} hours</p>
-                                  <p>Total Payment: ₹ {paymentDetails.totalPayment}</p>
-                                </>
+                                <p>Online Time: {paymentDetails.onlineTime} hours</p>
                               )}
                             </div>
                           </DialogContent>
                         </Dialog>
-                        <div className="flex space-x-4">
-                          <Button variant="outline" onClick={() => updateOnlineTime(driver.driverId, 1)} className="px-4 py-2 rounded-md">
+                        <div className="flex space-x-2">
+                          <Button variant="outline" onClick={() => updateOnlineTime(driver.driverId, 1)}>
                             Add 1 Hour
                           </Button>
-                          <Button variant="outline" onClick={() => resetOnlineTime(driver.driverId)} className="px-4 py-2 rounded-md">
+                          <Button variant="outline" onClick={() => resetOnlineTime(driver.driverId)}>
                             Reset Time
                           </Button>
                         </div>
