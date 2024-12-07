@@ -7,10 +7,12 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
 import { toast } from '@/hooks/use-toast'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 export function Login() {
  const [email, setEmail] = useState('')
  const [password, setPassword] = useState('')
+ const [showPassword, setShowPassword] = useState(false)
  const [loading, setLoading] = useState(false)
  const router = useRouter()
 
@@ -68,14 +70,29 @@ export function Login() {
            />
          </div>
          <div>
-           <Input
-             type="password"
-             placeholder="Password"
-             value={password}
-             onChange={(e) => setPassword(e.target.value)}
-             required
-             className="w-full"
-           />
+           <div className="relative">
+             <Input
+               type={showPassword ? "text" : "password"}
+               placeholder="Password"
+               value={password}
+               onChange={(e) => setPassword(e.target.value)}
+               required
+               className="w-full"
+             />
+             <Button
+               type="button"
+               variant="ghost"
+               size="sm"
+               className="absolute right-2 top-1/2 -translate-y-1/2"
+               onClick={() => setShowPassword(!showPassword)}
+             >
+               {showPassword ? (
+                 <EyeOffIcon className="h-4 w-4" />
+               ) : (
+                 <EyeIcon className="h-4 w-4" />
+               )}
+             </Button>
+           </div>
          </div>
          <Button type="submit" className="w-full" disabled={loading}>
            {loading ? 'Logging in...' : 'Login'}
