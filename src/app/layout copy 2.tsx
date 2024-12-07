@@ -56,7 +56,10 @@ export default function RootLayout({
                  </button>
                </div>
              )}
-             <div style={{ overflowY: 'auto', width: '100%', height: '100vh', scrollbarWidth: 'none' }}>{children}</div>
+             {/* <div style={{ overflowY: 'auto', width: '100%', height: '100vh', scrollbarWidth: 'none' }}>{children}</div> */}
+             <div className="h-full w-full overflow-y-auto scrollbar-none">
+               {children}
+             </div>
            </div>
          </main>
        </div>
